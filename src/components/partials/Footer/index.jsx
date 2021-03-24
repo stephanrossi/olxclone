@@ -1,13 +1,12 @@
 import React from "react"
+import FooterArea from "./styled"
 
 function Footer() {
   return (
     <>
-      <footer>
-        <br />
-        <hr />
-        <h3>Rodapé</h3>
-      </footer>
+      <FooterArea>
+        <h3>Footer</h3>
+      </FooterArea>
     </>
   )
 }
