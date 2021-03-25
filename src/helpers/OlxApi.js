@@ -4,6 +4,28 @@ import qs from 'qs';
 const BASEAPI = 'http://alunos.b7web.com.br:501';
 // const BASEAPI = 'http://localhost:8000/api';
 
+const apiFetchFile = async (url, body) => {
+    if (!body.token) {
+        let token = Cookies.get('token');
+        if (token) {
+            body.append('token', token);
+        }
+    }
+
+    const res = await fetch(BASEAPI + url, {
+        method: 'POST',
+        body
+    })
+
+    const json = await res.json();
+
+    if (json.notallowed) {
+        window.location.href = '/signin';
+        return;
+    }
+    return json;
+}
+
 const apiFetchGet = async (url, body = []) => {
     if (!body.token) {
         let token = Cookies.get.token;
@@ -93,6 +115,14 @@ const OlxApi = {
         const json = await apiFetchGet(
             '/ad/item',
             { id, other }
+        )
+        return json;
+    },
+
+    addAd: async (fData) => {
+        const json = await apiFetchFile(
+            '/ad/add',
+            fData
         )
         return json;
     }
